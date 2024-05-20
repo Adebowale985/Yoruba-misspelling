@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoruba Auto Detect API</title>
+</head>
+<body>
+    <h1>Yoruba Auto Detect API</h1>
+    <form id="spellCheckForm">
+        <label for="searchWord">Enter Word:</label>
+        <input type="text" id="searchWord" name="searchWord" required>
+        <button type="submit">Check Spelling</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("spellCheckForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Get the input value
+            var searchWord = document.getElementById("searchWord").value;
+
+            // Make a POST request to the API endpoint
+            fetch("/api", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "search_word": searchWord })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the result
+                document.getElementById("result").innerText = JSON.stringify(data);
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
